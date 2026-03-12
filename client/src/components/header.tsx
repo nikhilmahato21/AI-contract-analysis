@@ -1,17 +1,45 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Button } from "./ui/button";
+
+
+const navItems: { name: string; href: string }[] = [
+  { name: "Dashboard", href: "/dashboard" },
+  { name: "Pricing", href: "/pricing" },
+  { name: "Privacy Policy", href: "/privacy" },
+];
+
 export function Header() {
+  const pathname = usePathname();
+
   return (
-    <header className="bg-gray-800 text-white p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Contract Analysis</h1>
-        <nav>
-          <ul className="flex space-x-4">
-            <li>
-              <a href="/dashboard" className="hover:underline">
-                Dashboard  vv
-              </a>
-            </li>
-          </ul>
-        </nav>
+    <header className="sticky px-4 top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
+      <div className="container flex h-16 items-center">
+        <div className="mr-4 hidden md:flex">
+          <Link href={"/"} className="mr-6 flex items-center space-x-2">
+            LOGO
+          </Link>
+          <nav className="flex items-center space-x-7 text-sm font-medium">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={cn(
+                  "transition-colors hover:text-foreground/80",
+                  pathname === item.href
+                    ? "text-foreground"
+                    : "text-foreground/60"
+                )}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+        </div>
+        
       </div>
     </header>
   );
