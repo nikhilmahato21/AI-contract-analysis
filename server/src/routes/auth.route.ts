@@ -2,6 +2,7 @@ import express from "express";
 import passport from "passport";
 import { generateToken } from "../utils/jwt";
 import { googleCallbackController } from "../controller/auth.controller";
+import { authenticate } from "../middleware/auth";
 
 const router = express.Router();
 
@@ -21,6 +22,13 @@ router.get(
   }),
    googleCallbackController
 );
+
+router.get("/current-user", authenticate, (req, res) => {
+  res.json({
+    user: req.user,
+  });
+});
+
 
 router.post("/logout", (req, res) => {
   res.clearCookie("token", {
