@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 
-export const authenticate = (req: any, res: any, next: any) => {
+import { AuthRequest } from "../types/express";
+
+export const authenticate = (req: AuthRequest, res: any, next: any) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -8,7 +10,7 @@ export const authenticate = (req: any, res: any, next: any) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
     req.user = decoded;
     next();
   } catch {

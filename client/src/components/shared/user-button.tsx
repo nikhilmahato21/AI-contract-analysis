@@ -1,36 +1,80 @@
-"use client";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { Button } from "../ui/button";
-import { DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Link from "next/link";
 
-function googleSignIn():Promise<void> {
-  return new Promise((resolve) => {
-    window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/google`, "_self");
-    resolve();
-  });
-}
+
+import { useRouter } from "next/navigation";
+import { Icons } from "./icons";
+
+
 export function UserButton() {
-    const { user } = useCurrentUser();
-    // Debug log to check user type
-    if (user) {
-        console.log('User object:', user);
-        if (typeof user !== 'object' || user === null || Object.getPrototypeOf(user) !== Object.prototype) {
-            return null; // Prevent rendering if not a plain object
-        }
-    }
-    return (
-        <div className="flex flex-1 items-center justify-center space-x-2 md:justify-end">
-            {user ? (
-                <div className="flex items-center space-x-2">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="size-8 rounded-full">{user.name}</Button>
-                        </DropdownMenuTrigger>
-                    </DropdownMenu>
+  const router = useRouter();
+  const { user } = useCurrentUser();
+//   const { openModal } = useModalStore();
+
+//   const handleLogout = async () => {
+//     await logout();
+//     window.location.reload();
+//     setInterval(() => router.push("/"), 1000);
+//   };
+
+  return (
+    <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+      {user ? (
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="size-8 rounded-full">
+                <Avatar className="size-8">
+                  <AvatarImage src={user?.profilePicture || ""} />
+                  <AvatarFallback>
+                    {user?.displayName?.charAt(0) || ""}
+                  </AvatarFallback>
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" forceMount>
+              <DropdownMenuItem className="flex flex-col items-start">
+                <div className="text-sm font-medium">{user?.displayName}</div>
+                <div className="text-sm text-muted-foreground">
+                  {user?.email}
                 </div>
-            ) : (
-                <Button onClick={googleSignIn}>Get started</Button>
-            )}
-        </div>
-    );
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href={"/dashboard"}>
+                  <Icons.dashboard className="mr-2 size-4" />
+                  <span>Dashboard</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href={"/dashboard/settings"}>
+                  <Icons.settings className="mr-2 size-4" />
+                  <span>Settings</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem >
+                <Icons.logout className="mr-2 size-4" />
+                <span>Logout</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </>
+      ) : (
+        <>
+          <Button >
+            Sign in
+          </Button>
+        </>
+      )}
+    </div>
+  );
 }

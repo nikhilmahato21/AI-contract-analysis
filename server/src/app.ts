@@ -10,7 +10,12 @@ import './config/passport';
 
 
 const app = expresss();
-app.use(cors());
+app.use(cors(
+    {
+        origin: process.env.CLIENT_URL,
+        credentials: true,
+    }
+));
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(cookieParser());
