@@ -118,12 +118,17 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
-  }
+    border-color: var(--color-border);
+    outline-color: var(--color-ring);
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  html {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  }
   }
   html {
     @apply font-sans;
+  }
   }
 }

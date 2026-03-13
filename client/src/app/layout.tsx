@@ -6,12 +6,12 @@ import { ReactQueryProvider } from "@/provider/tanstack/react-query-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-   weight: ["100", "900"],
+  weight: ["100","200","300","400","500","600","700","800","900"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-   weight: ["100", "900"],
+  weight: ["100","200","300","400","500","600","700","800","900"],
 });
 
 export const metadata: Metadata = {

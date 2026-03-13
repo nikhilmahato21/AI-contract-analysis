@@ -13,6 +13,7 @@ import Link from "next/link";
 
 import { useRouter } from "next/navigation";
 import { Icons } from "./icons";
+import { logout } from "@/lib/api";
 
 
 export function UserButton() {
@@ -20,11 +21,11 @@ export function UserButton() {
   const { user } = useCurrentUser();
 //   const { openModal } = useModalStore();
 
-//   const handleLogout = async () => {
-//     await logout();
-//     window.location.reload();
-//     setInterval(() => router.push("/"), 1000);
-//   };
+  const handleLogout = async () => {
+    await logout();
+    window.location.reload();
+    setInterval(() => router.push("/"), 1000);
+  };
 
   return (
     <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
@@ -61,7 +62,7 @@ export function UserButton() {
                   <span>Settings</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem >
+              <DropdownMenuItem  onClick={handleLogout}>
                 <Icons.logout className="mr-2 size-4" />
                 <span>Logout</span>
               </DropdownMenuItem>
