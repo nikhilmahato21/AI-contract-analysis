@@ -7,7 +7,7 @@ export const useCurrentUser = () => {
     queryFn: async () => {
       try {
         const response = await api.get("/auth/current-user");
-        return response.data;
+        return response?.data;
       } catch (error) {
         console.error("Error fetching current user:", error);
         return null;

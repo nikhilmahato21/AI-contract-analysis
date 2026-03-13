@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
+import { User } from "lucide-react";
+import { UserButton } from "./shared/user-button";
 
 const navItems: { name: string; href: string }[] = [
   { name: "Dashboard", href: "/dashboard" },
@@ -11,16 +13,11 @@ const navItems: { name: string; href: string }[] = [
   { name: "Privacy Policy", href: "/privacy" },
 ];
 
-function googleSignIn():Promise<void> {
-  return new Promise((resolve) => {
-    window.open("http://localhost:8080/auth/google", "_self");
-    resolve();
-  });
-}
+
 
 export function Header() {
   const pathname = usePathname();
-  const user = true;
+  
 
   return (
     <header className="sticky px-4 top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
@@ -46,12 +43,7 @@ export function Header() {
             ))}
           </nav>
         </div>
-        <div className="flex flex-1 items-center justify-center space-x-2 md:justify-end">
-        <div className="w-full flex-1 md:w-auto md:flex-none space-x-2 hidden md:flex "> 
-          <Button onClick={googleSignIn}>Get started</Button>
-
-        </div>
-        </div>
+        <UserButton />
       </div>
     </header>
   );
