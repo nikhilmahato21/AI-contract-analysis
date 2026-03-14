@@ -1,5 +1,13 @@
 import redis from "../config/redis";
 import { getDocument } from "pdfjs-dist";
+import { GoogleGenAI } from "@google/genai";
+
+
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY!,
+});
+
+const AI_MODEL = "gemini-1.5-flash";
 
 export const extractTextFromPDF = async (fileKey: string) => {
   try {
@@ -37,4 +45,24 @@ export const extractTextFromPDF = async (fileKey: string) => {
       `Failed to extract text from PDF. Error: ${JSON.stringify(error)}`
     );
   }
+};
+
+export const detectContractType = async (
+  contractText: string
+): Promise<string> => {
+  const prompt = `
+    Analyze the following contract text and determine the type of contract it is.
+    Provide only the contract type as a single string (e.g., "Employment", "Non-Disclosure Agreement", "Sales", "Lease", etc.).
+    Do not include any additional explanation or text.
+
+    Contract text:
+    ${contractText.substring(0, 2000)}
+  `;
+
+  const { text } = await ai.models.generateContent({
+    model: AI_MODEL,
+    contents: prompt,
+  });
+
+  return text?.trim() ?? "";
 };
