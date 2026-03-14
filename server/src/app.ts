@@ -7,6 +7,7 @@ import passport from 'passport';
 import cookieParser from "cookie-parser";
 import router  from './routes/auth.route';
 import './config/passport';
+import redis from './config/redis';
 
 
 const app = expresss();
@@ -26,6 +27,11 @@ app.use('/auth', router);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
+});
+
+app.get('/health/redis', async (req, res) => {
+    const pong = await redis.ping();
+    res.json({ redis: pong });
 });
 
 
