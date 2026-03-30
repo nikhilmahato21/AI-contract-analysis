@@ -5,7 +5,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  
 }
 
 datasource db {
@@ -17,6 +16,36 @@ model User {
   googleId       String   @unique
   email          String   @unique
   displayName    String
-  profilePicture String?  // Optional field
-  isPremium      Boolean  @default(false)
+  profilePicture String?            // Optional field
+  isPremium      Boolean            @default(false)
+}
+
+model ContractAnalysis {
+  id                            String   @id @default(uuid())
+  userId                        String
+  contractText                  String
+  risks                         Json?
+  opportunities                 Json?
+  summary                       String
+  recommendations               String[]
+  keyClauses                    String[]
+  legalCompliance               String?
+  negotiationPoints             String[]
+  contractDuration              String?
+  terminationConditions         String?
+  overallScore                  Int?
+  compensationStructure         Json?
+  performanceMetrics            String[]
+  intellectualPropertyClauses   Json?
+  createdAt                     DateTime @default(now())
+  version                       Int      @default(1)
+  userFeedback                  Json?
+  customFields                  Json?
+  expirationDate                DateTime?
+  language                      String   @default("en")
+  aiModel                       String   @default("gemini-pro")
+  contractType                  String
+  financialTerms                Json?
+
+  @@index([userId])
 }
