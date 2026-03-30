@@ -52,3 +52,4 @@ export const detectAndConfirmContractType = async (
     res.status(500).json({ error: "Failed to detect contract type" });
   }
 };
+
